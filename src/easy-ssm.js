@@ -12,7 +12,7 @@ export default class EasySSM {
       maxRetries: 3,
       timeoutSec: 60,
       OutputS3BucketName: null,
-      OutputS3BucketKeyPrefix: null,
+      OutputS3KeyPrefix: '',
       logger: null
     };
     this.params = Object.assign(defaultParams, params);
@@ -45,4 +45,3 @@ export default class EasySSM {
     });
   }
 }
-

@@ -4,6 +4,8 @@ export default class SendCommand {
     this.timeoutSec = params.timeoutSec;
     this.maxRetries = params.maxRetries;
     this.logger = params.logger;
+    this.s3Bucket = params.OutputS3BucketName;
+    this.s3KeyPrefix = params.OutputS3KeyPrefix;
   }
 
   async run(instance_ids, command) {
@@ -14,8 +16,8 @@ export default class SendCommand {
     const params = {
       DocumentName: 'AWS-RunShellScript',
       InstanceIds: instance_ids,
-      OutputS3BucketName: 'yaguchi-ssm',
-      OutputS3KeyPrefix: '',
+      OutputS3BucketName: this.s3Bucket,
+      OutputS3KeyPrefix: this.s3KeyPrefix,
       Parameters: {commands: [command]},
       TimeoutSeconds: this.timeoutSec,
     };
