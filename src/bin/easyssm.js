@@ -1,8 +1,9 @@
 #! /usr/bin/env node
 
 var EasySSM = require('../easy-ssm');
-var easySsm = new EasySSM();
-easySsm.run(process.argv[2], process.argv[3], function(err, data) {
+var easySsm = new EasySSM({logger: process.stdout});
+var instance_ids = process.argv[2].split(',');
+easySsm.run(instance_ids, process.argv[3], function(err, data) {
   if (err) {
     console.log(err);
     return;

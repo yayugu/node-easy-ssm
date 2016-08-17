@@ -1,9 +1,9 @@
 export default class SendCommand {
-  constructor(ssm, timeoutSec, maxRetries, logger) {
-    this.ssm = ssm;
-    this.timeoutSec = timeoutSec;
-    this.maxRetries = maxRetries;
-    this.logger = logger;
+  constructor(params) {
+    this.ssm = params.ssm;
+    this.timeoutSec = params.timeoutSec;
+    this.maxRetries = params.maxRetries;
+    this.logger = params.logger;
   }
 
   async run(instance_ids, command) {
@@ -14,8 +14,8 @@ export default class SendCommand {
     const params = {
       DocumentName: 'AWS-RunShellScript',
       InstanceIds: instance_ids,
-      //OutputS3BucketName: 'STRING_VALUE',
-      //OutputS3KeyPrefix: 'STRING_VALUE',
+      OutputS3BucketName: 'yaguchi-ssm',
+      OutputS3KeyPrefix: '',
       Parameters: {commands: [command]},
       TimeoutSeconds: this.timeoutSec,
     };
@@ -34,7 +34,6 @@ export default class SendCommand {
       let data;
       try {
         data = await this.listCommandInvocationsPromise(params);
-
       } catch (e) {
         if (retries >= this.maxRetries) {
           const error = new Error('call API listCommandInvocations failed ' + retries + ' times: ' + e.toString());
@@ -68,7 +67,7 @@ export default class SendCommand {
 
   sendCommandPromise(params) {
     return new Promise((resolve, reject) => {
-      this.logger.log('Call SSM sendCommand');
+      this.logger.log('Call SSM:SendCommand');
       this.ssm.sendCommand(params, (err, data) => {
         if (err) {
           reject(err);
@@ -82,12 +81,12 @@ export default class SendCommand {
 
   listCommandInvocationsPromise(params) {
     return new Promise((resolve, _) => {
-      this.logger.log('Call SSM listCommandInvocations');
+      this.logger.log('Call SSM:listCommandInvocations');
       this.ssm.listCommandInvocations(params, (err, data) => {
         if (err) {
           reject(err);
         }
-        this.logger.log('listCommandInvocations response:');
+        this.logger.log('SSM:ListCommandInvocations response:');
         this.logger.log(JSON.stringify(data, null, 4));
         resolve(data);
       });
