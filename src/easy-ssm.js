@@ -17,10 +17,10 @@ export default class EasySSM {
     };
     this.params = Object.assign(defaultParams, params);
     if (!this.params.ssm) {
-      this.params.ssm = new AWS.SSM({region: 'ap-northeast-1'});
+      this.params.ssm = new AWS.SSM();
     }
     if (!this.params.s3) {
-      this.params.s3 = new AWS.S3({region: 'ap-northeast-1'});
+      this.params.s3 = new AWS.S3();
     }
     if (this.params.logger) {
       this.params.logger = new Logger(this.params.logger);
