@@ -48,8 +48,8 @@ class Cli {
   }
 
   outputPretty(output) {
-    console.log('SSM RunShellScript status:' + output.ssmRunShellScriptStatus);
-    console.log('              Exit status:' + output.exitStatus);
+    console.log('SSM RunShellScript status: ' + output.ssmRunShellScriptStatus);
+    console.log('              Exit status: ' + output.exitStatus);
     console.log('');
     console.log('------- stdout -------');
     console.log(output.stdout);
