@@ -36,8 +36,11 @@ var params = {
   // default: ''
   OutputS3KeyPrefix: 'ssm-outputs',
   
-  // Command Execution timeout. default: 60sec
-  timeoutSec: 60,  
+  // Command Execution timeout. default: 1000sec
+  // 
+  // Warning: This parameter is pass to SSM API
+  //          but will not work as you might think.
+  timeoutSec: 1000,  
   
   // aws-sdk objects
   ssm: new AWS.SSM(customParams),
@@ -56,6 +59,8 @@ var easySsm = new EasySSM(params);
 easySsm.run(instanceid, command, function(err, output) {
   console.log(output.stdout);
   console.log(output.stderr);
+  console.log(output.exitStatus);
+  console.log(output.ssmRunShellScriptStatus);
 });
 ```
 
@@ -77,6 +82,9 @@ $ easyssm
     --debug                       show debug info
     
 $ easyssm i-xxxxxx echo output\; '>&2' echo error
+SSM RunShellScript status: Success
+              Exit status: 0
+
 ------- stdout -------
 output
 
