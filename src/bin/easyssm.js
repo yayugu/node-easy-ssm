@@ -41,7 +41,6 @@ class Cli {
       } else {
         throw new Error('Unknown output format.');
       }
-      process.exit(0);
     } catch (e) {
       console.log(e);
       process.exit(1);
@@ -49,6 +48,9 @@ class Cli {
   }
 
   outputPretty(output) {
+    console.log('SSM RunShellScript status:' + output.ssmRunShellScriptStatus);
+    console.log('              Exit status:' + output.exitStatus);
+    console.log('');
     console.log('------- stdout -------');
     console.log(output.stdout);
     console.log('------- stderr -------');
@@ -58,6 +60,7 @@ class Cli {
   outputRaw(output) {
     process.stdout.write(output.stdout);
     process.stderr.write(output.stderr);
+    process.exitCode = output.exitStatus;
   }
 
   outputJson(output) {

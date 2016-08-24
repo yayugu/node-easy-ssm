@@ -10,7 +10,7 @@ export default class EasySSM {
       ssm: null,
       s3: null,
       maxRetries: 3,
-      timeoutSec: 60,
+      timeoutSec: 1000,
       OutputS3BucketName: null,
       OutputS3KeyPrefix: '',
       logger: null

@@ -55,12 +55,7 @@ export default class SendCommand {
         throw error;
       }
       const status = data.CommandInvocations[0].Status;
-      if (status === 'TimedOut' || status === 'Cancelled' || status === 'Failed') {
-        const error = new Error('Run Command ' + data.Command.State);
-        error.data = data;
-        throw error;
-      }
-      if (status === 'Success') {
+      if (status === 'Success' || status === 'TimedOut' || status === 'Cancelled' || status === 'Failed') {
         return data;
       }
       retries = 0;
@@ -70,6 +65,7 @@ export default class SendCommand {
   sendCommandPromise(params) {
     return new Promise((resolve, reject) => {
       this.logger.log('Call SSM:SendCommand');
+      this.logger.log(JSON.stringify(params, null, 4));
       this.ssm.sendCommand(params, (err, data) => {
         if (err) {
           reject(err);

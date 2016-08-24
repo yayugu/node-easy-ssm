@@ -12,10 +12,15 @@ export default class GetOutput {
     const ret = invocationResult.CommandInvocations[0];
     this.logger.log(JSON.stringify(ret, null, 4));
     const bucket = ret.CommandPlugins[0].OutputS3BucketName;
+    const exitStatus = ret.CommandPlugins[0].ResponseCode;
+    const status = ret.CommandPlugins[0].Status;
     const summarizedOutput = this.parseInvocationResultOutput(ret.CommandPlugins[0].Output);
     if (!bucket) {
       this.logger.log('S3 Bucket is not specified. Try to parse SSM:ListCommandInvocation result... Long output may summarized.');
-      return summarizedOutput;
+      return Array.assign(summarizedOutput, {
+        exitStatus: exitStatus,
+        ssmRunShellScriptStatus: status,
+      });
     }
     const keyPrefix = ret.CommandPlugins[0].OutputS3KeyPrefix;
     const stdoutKey = keyPrefix + '/0.aws:runShellScript/stdout';
@@ -35,6 +40,8 @@ export default class GetOutput {
       return {
         stdout: stdout,
         stderr: stderr,
+        exitStatus: exitStatus,
+        ssmRunShellScriptStatus: status,
       };
     } catch (e) {
       const error = new Error('get stdout & stderr form S3 failed: ' + e.toString())
