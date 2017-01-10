@@ -17,10 +17,10 @@ export default class EasySSM {
     };
     this.params = Object.assign(defaultParams, params);
     if (!this.params.ssm) {
-      this.params.ssm = new AWS.SSM({region: process.env.AWS_DEFAULT_REGION});
+      this.params.ssm = new AWS.SSM({region: this.params.ssmRegion || process.env.AWS_DEFAULT_REGION});
     }
     if (!this.params.s3) {
-      this.params.s3 = new AWS.S3({region: process.env.AWS_DEFAULT_REGION});
+      this.params.s3 = new AWS.S3({region: this.params.bucketRegion ||  process.env.AWS_DEFAULT_REGION});
     }
     if (this.params.logger) {
       this.params.logger = new Logger(this.params.logger);

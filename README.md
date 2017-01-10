@@ -74,12 +74,14 @@ $ easyssm
 
   Options:
 
-    -h, --help                    output usage information
-    -V, --version                 output the version number
-    -b, --bucket <bucket>         S3 bucket name
-    -k, --key-prefix <keyPrefix>  S3 key prefix
-    -o, --output <format>         specify output format (pretty|raw|json) [pretty]
-    --debug                       show debug info
+    -h, --help                          output usage information
+    -V, --version                       output the version number
+    -r, --ssm-region <ssmRegion>        SSM endpoint region
+    -e, --bucket-region <bucketRegion>  S3 bucket region
+    -b, --bucket <bucket>               S3 bucket name
+    -k, --key-prefix <keyPrefix>        S3 key prefix
+    -o, --output <format>               specify output format (pretty|raw|json) [pretty]
+    --debug                             show debug info
     
 $ easyssm i-xxxxxx echo output\; '>&2' echo error
 SSM RunShellScript status: Success

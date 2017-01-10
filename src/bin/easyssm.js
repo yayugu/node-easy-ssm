@@ -10,6 +10,8 @@ class Cli {
       program
         .version(version)
         .usage('[options] <instance id> <command...>')
+        .option('-r, --ssm-region <ssmRegion>', 'SSM endpoint region')
+        .option('-e, --bucket-region <bucketRegion>', 'S3 bucket region')
         .option('-b, --bucket <bucket>', 'S3 bucket name')
         .option('-k, --key-prefix <keyPrefix>', 'S3 key prefix', '')
         .option('-o, --output <format>', 'specify output format (pretty|raw|json) [pretty]', 'pretty')
@@ -27,6 +29,8 @@ class Cli {
         params.logger = process.stderr;
       }
       if (program.bucket) {
+        params.ssmRegion = program.ssmRegion;
+        params.bucketRegion = program.bucketRegion;
         params.OutputS3BucketName = program.bucket;
         params.OutputS3KeyPrefix = program.keyPrefix;
       }
