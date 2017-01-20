@@ -17,7 +17,7 @@ export default class GetOutput {
     const summarizedOutput = this.parseInvocationResultOutput(ret.CommandPlugins[0].Output);
     if (!bucket) {
       this.logger.log('S3 Bucket is not specified. Try to parse SSM:ListCommandInvocation result... Long output may summarized.');
-      return Array.assign(summarizedOutput, {
+      return Object.assign(summarizedOutput, {
         exitStatus: exitStatus,
         ssmRunShellScriptStatus: status,
       });

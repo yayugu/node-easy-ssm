@@ -25,15 +25,20 @@ class Cli {
       const command = program.args.slice(1).join(' ');
 
       const params = {};
-      if (program.debug) {
-        params.logger = process.stderr;
+      if (program.ssmRegion) {
+        params.ssmRegion = program.ssmRegion;
+      }
+      if (program.bucketRegion) {
+        params.bucketRegion = program.bucketRegion;
       }
       if (program.bucket) {
-        params.ssmRegion = program.ssmRegion;
-        params.bucketRegion = program.bucketRegion;
         params.OutputS3BucketName = program.bucket;
         params.OutputS3KeyPrefix = program.keyPrefix;
       }
+      if (program.debug) {
+        params.logger = process.stderr;
+      }
+
       const easySsm = new EasySSM(params);
       const output = await easySsm.runPromise(instanceId, command);
       if (program.output === 'pretty') {
