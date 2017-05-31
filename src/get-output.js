@@ -23,8 +23,8 @@ export default class GetOutput {
       });
     }
     const keyPrefix = ret.CommandPlugins[0].OutputS3KeyPrefix;
-    const stdoutKey = keyPrefix + '/0.aws:runShellScript/stdout';
-    const stderrKey = keyPrefix + '/0.aws:runShellScript/stderr';
+    const stdoutKey = keyPrefix + '/0.awsrunShellScript/stdout';
+    const stderrKey = keyPrefix + '/0.awsrunShellScript/stderr';
 
     try {
       let stdout = summarizedOutput.stdout;
@@ -44,7 +44,7 @@ export default class GetOutput {
         ssmRunShellScriptStatus: status,
       };
     } catch (e) {
-      const error = new Error('get stdout & stderr form S3 failed: ' + e.toString())
+      const error = new Error('get stdout & stderr from S3 failed: ' + e.toString())
       error.parentError = e;
       throw error;
     }
@@ -59,7 +59,7 @@ export default class GetOutput {
       // 5sec interval, 20times
       // Note: aws-sdk waitFor can't customize interval and maxAttempted.
       // see https://github.com/aws/aws-sdk-js/issues/881
-      this.logger.log('Waiting until object uploaded. Call S3:HeadObject');
+      this.logger.log('Waiting until object(s3://' + bucket + '/' + key + ') uploaded. Call S3:HeadObject');
       this.s3.waitFor('objectExists', params, (err, _) => {
         if (err) {
           reject(err);
