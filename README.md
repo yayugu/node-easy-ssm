@@ -44,7 +44,7 @@ var params = {
   
   // aws-sdk objects
   ssm: new AWS.SSM(customParams),
-  s3: new AWS.SSM(customParams),
+  s3: new AWS.S3(customParams),
   
   // Allow SSM;ListCommandInvocationError n times. default: 3
   maxRetries: 3,
