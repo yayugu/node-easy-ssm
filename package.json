@@ -1,6 +1,6 @@
 {
   "name": "easy-ssm",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "aws-sdk-js wrapper. You can use Amazon SSM Run Command (Mainly AWS-RunShellScript) easily.",
   "main": "lib/easy-ssm.js",
   "bin": {

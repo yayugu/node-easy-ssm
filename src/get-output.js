@@ -14,7 +14,7 @@ export default class GetOutput {
     const bucket = ret.CommandPlugins[0].OutputS3BucketName;
     const exitStatus = ret.CommandPlugins[0].ResponseCode;
     const status = ret.CommandPlugins[0].Status;
-    const summarizedOutput = this.parseInvocationResultOutput(ret.CommandPlugins[0].Output);
+    const summarizedOutput = this.parseInvocationResultOutput(ret.CommandPlugins[0].Output, status);
     if (!bucket) {
       this.logger.log('S3 Bucket is not specified. Try to parse SSM:ListCommandInvocation result... Long output may summarized.');
       return Object.assign(summarizedOutput, {
@@ -89,14 +89,19 @@ export default class GetOutput {
     });
   }
 
-  parseInvocationResultOutput (output) {
+  parseInvocationResultOutput (output, status) {
     if (output === undefined) {
       output = '';
     }
     const a = output.split("\n----------ERROR-------\n");
+    const stdout = a[0];
+    let stderr = a[1] === undefined ? '' : a[1];
+    if (status === 'Failed') {
+      stderr = stderr.replace(/^failed to run commands: exit status \d+\n?/m, '');
+    }
     return {
-      stdout: a[0],
-      stderr: a[1] === undefined ? '' : a[1],
+      stdout: stdout,
+      stderr: stderr,
     };
   }
 }
