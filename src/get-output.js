@@ -23,8 +23,8 @@ export default class GetOutput {
       });
     }
     const keyPrefix = ret.CommandPlugins[0].OutputS3KeyPrefix;
-    const stdoutKey = keyPrefix + '/0.aws:runShellScript/stdout';
-    const stderrKey = keyPrefix + '/0.aws:runShellScript/stderr';
+    const stdoutKey = keyPrefix + '/0.awsrunShellScript/stdout';
+    const stderrKey = keyPrefix + '/0.awsrunShellScript/stderr';
 
     try {
       let stdout = summarizedOutput.stdout;
